@@ -1,0 +1,7 @@
+[info] Don't use 'BuildContext's across async gaps (c:\101_Programming\hirelink\lib\forgotpasswordpage.dart:64:13)
+[info] 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss (c:\101_Programming\hirelink\lib\mockinterviewpage.dart:79:54)
+[info] 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss (c:\101_Programming\hirelink\lib\mockinterviewpage.dart:82:70)
+[info] 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss (c:\101_Programming\hirelink\lib\mockinterviewpage.dart:88:42)
+[info] 'withOpacity' is deprecated and shouldn't be used. Use .withValues() to avoid precision loss (c:\101_Programming\hirelink\lib\mockinterviewpage.dart:89:43)
+[info] Don't use 'BuildContext's across async gaps (c:\101_Programming\hirelink\lib\resetpasswordpage.dart:33:25)
+[info] Don't use 'BuildContext's across async gaps (c:\101_Programming\hirelink\lib\resetpasswordpage.dart:34:25)
