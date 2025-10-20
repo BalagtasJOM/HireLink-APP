@@ -15,18 +15,59 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
-  
   final TextEditingController _firstNameController = TextEditingController(text: 'Juan');
   final TextEditingController _lastNameController = TextEditingController(text: 'Dela Cruz');
   final TextEditingController _middleNameController = TextEditingController(text: 'Tomas');
   final TextEditingController _emailController = TextEditingController(text: 'JuanDelaCruz123@gmail.com');
   final TextEditingController _phoneController = TextEditingController(text: '+63 987 654 3210');
 
-  
   DateTime _selectedDate = DateTime(2000, 6, 27);
 
-  
   String _selectedGender = 'MALE';
+
+  final List<JobController> _jobControllers = [
+    JobController(
+      positionController: TextEditingController(text: 'Software Developer'),
+      companyController: TextEditingController(text: 'Tech Solutions Inc.'),
+      startDateController: TextEditingController(text: '2022'),
+      endDateController: TextEditingController(text: 'Present'),
+    ),
+    JobController(
+      positionController: TextEditingController(text: 'Junior Developer'),
+      companyController: TextEditingController(text: 'Digital Innovations Ltd.'),
+      startDateController: TextEditingController(text: '2021'),
+      endDateController: TextEditingController(text: '2022'),
+    ),
+    JobController(
+      positionController: TextEditingController(text: 'Software Engineering Intern'),
+      companyController: TextEditingController(text: 'StartupHub Philippines'),
+      startDateController: TextEditingController(text: '2020'),
+      endDateController: TextEditingController(text: '2021'),
+    ),
+  ];
+
+  final List<EducationController> _educationControllers = [
+    EducationController(
+      levelController: TextEditingController(text: 'College'),
+      schoolController: TextEditingController(text: 'University of the Philippines'),
+      yearController: TextEditingController(text: '2018-2022'),
+    ),
+    EducationController(
+      levelController: TextEditingController(text: 'Senior High School'),
+      schoolController: TextEditingController(text: 'Philippine Science High School'),
+      yearController: TextEditingController(text: '2016-2018'),
+    ),
+    EducationController(
+      levelController: TextEditingController(text: 'Junior High School'),
+      schoolController: TextEditingController(text: 'St. Mary\'s Academy'),
+      yearController: TextEditingController(text: '2012-2016'),
+    ),
+    EducationController(
+      levelController: TextEditingController(text: 'Elementary Education'),
+      schoolController: TextEditingController(text: 'Manila Elementary School'),
+      yearController: TextEditingController(text: '2006-2012'),
+    ),
+  ];
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -42,9 +83,38 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  void _addJob() {
+    setState(() {
+      _jobControllers.add(JobController());
+    });
+  }
+
+  void _removeJob(int index) {
+    if (_jobControllers.length > 1) {
+      setState(() {
+        _jobControllers.removeAt(index);
+      });
+    }
+  }
+
+  void _addEducation() {
+    setState(() {
+      _educationControllers.add(EducationController());
+    });
+  }
+
+  void _removeEducation(int index) {
+    if (_educationControllers.length > 1) {
+      setState(() {
+        _educationControllers.removeAt(index);
+      });
+    }
+  }
+
   void _saveProfile() {
     if (_formKey.currentState!.validate()) {
-      
+      debugPrint('Profile updated: Personal info, ${_jobControllers.length} jobs, ${_educationControllers.length} educations');
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Profile updated successfully!'),
@@ -52,7 +122,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       );
 
-      
       Navigator.pop(context);
     }
   }
@@ -105,7 +174,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color.fromARGB(255, 255, 255, 255),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -205,7 +274,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.grey),
+                              border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
                             child: Row(
                               children: [
@@ -229,10 +298,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: Colors.grey),
+                            border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                           ),
                           child: DropdownButtonFormField<String>(
-                            value: _selectedGender,
+                            initialValue: _selectedGender,
                             decoration: const InputDecoration(
                               labelText: 'Gender',
                               border: InputBorder.none,
@@ -251,14 +320,87 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             },
                           ),
                         ),
+                        const SizedBox(height: 24),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Job Experience',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: _addJob,
+                              icon: const Icon(Icons.add),
+                              label: const Text('Add Job'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: const Color(0xFF1976D2),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: _jobControllers.length,
+                          itemBuilder: (context, index) {
+                            return _JobFormCard(
+                              controller: _jobControllers[index],
+                              onRemove: () => _removeJob(index),
+                              canRemove: _jobControllers.length > 1,
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 24),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              'Education',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black,
+                              ),
+                            ),
+                            TextButton.icon(
+                              onPressed: _addEducation,
+                              icon: const Icon(Icons.add),
+                              label: const Text('Add Education'),
+                              style: TextButton.styleFrom(
+                                foregroundColor: const Color(0xFF1976D2),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 16),
+
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: _educationControllers.length,
+                          itemBuilder: (context, index) {
+                            return _EducationFormCard(
+                              controller: _educationControllers[index],
+                              onRemove: () => _removeEducation(index),
+                              canRemove: _educationControllers.length > 1,
+                            );
+                          },
+                        ),
                         const SizedBox(height: 40),
 
-                        
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue,
+                              backgroundColor: const Color(0xFF1976D2),
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -266,7 +408,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                             onPressed: _saveProfile,
                             child: const Text(
-                              'Change',
+                              'Save Changes',
                               style: TextStyle(fontSize: 18, color: Colors.white),
                             ),
                           ),
@@ -281,6 +423,244 @@ class _EditProfilePageState extends State<EditProfilePage> {
               _BottomNavBar(currentPage: 'profile'),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class JobController {
+  final TextEditingController positionController;
+  final TextEditingController companyController;
+  final TextEditingController startDateController;
+  final TextEditingController endDateController;
+
+  JobController({
+    TextEditingController? positionController,
+    TextEditingController? companyController,
+    TextEditingController? startDateController,
+    TextEditingController? endDateController,
+  }) :
+    positionController = positionController ?? TextEditingController(),
+    companyController = companyController ?? TextEditingController(),
+    startDateController = startDateController ?? TextEditingController(),
+    endDateController = endDateController ?? TextEditingController();
+}
+
+class EducationController {
+  final TextEditingController levelController;
+  final TextEditingController schoolController;
+  final TextEditingController yearController;
+
+  EducationController({
+    TextEditingController? levelController,
+    TextEditingController? schoolController,
+    TextEditingController? yearController,
+  }) :
+    levelController = levelController ?? TextEditingController(),
+    schoolController = schoolController ?? TextEditingController(),
+    yearController = yearController ?? TextEditingController();
+}
+
+class _JobFormCard extends StatelessWidget {
+  final JobController controller;
+  final VoidCallback onRemove;
+  final bool canRemove;
+
+  const _JobFormCard({
+    required this.controller,
+    required this.onRemove,
+    required this.canRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Job Entry',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (canRemove)
+                  IconButton(
+                    onPressed: onRemove,
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    iconSize: 20,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: controller.positionController,
+              decoration: InputDecoration(
+                labelText: 'Position',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade50,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter position';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: controller.companyController,
+              decoration: InputDecoration(
+                labelText: 'Company',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade50,
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter company';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: controller.startDateController,
+                    decoration: InputDecoration(
+                      labelText: 'Start Year',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey.shade50,
+                    ),
+                    keyboardType: TextInputType.number,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextFormField(
+                    controller: controller.endDateController,
+                    decoration: InputDecoration(
+                      labelText: 'End Year',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      filled: true,
+                      fillColor: Colors.grey.shade50,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _EducationFormCard extends StatelessWidget {
+  final EducationController controller;
+  final VoidCallback onRemove;
+  final bool canRemove;
+
+  const _EducationFormCard({
+    required this.controller,
+    required this.onRemove,
+    required this.canRemove,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  'Education Entry',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                if (canRemove)
+                  IconButton(
+                    onPressed: onRemove,
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    iconSize: 20,
+                  ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: controller.levelController,
+              decoration: InputDecoration(
+                labelText: 'Education Level',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: const Color.fromARGB(0, 255, 255, 255),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter education level';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: controller.schoolController,
+              decoration: InputDecoration(
+                labelText: 'School/Institution',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: const Color.fromARGB(0, 255, 255, 255),
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter school/institution';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 12),
+            TextFormField(
+              controller: controller.yearController,
+              decoration: InputDecoration(
+                labelText: 'Year/s Attended',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                filled: true,
+                fillColor: Colors.grey.shade50,
+              ),
+            ),
+          ],
         ),
       ),
     );

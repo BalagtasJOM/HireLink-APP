@@ -4,7 +4,7 @@ import 'practicepage.dart';
 import 'trackingpage.dart';
 import 'journalpage.dart';
 import 'profilepage.dart';
-import 'editapplicationprofile.dart';
+import 'editprofile.dart';
 
 
 class _AppShadows {
@@ -28,6 +28,7 @@ class ApplicationProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint('ApplicationProfilePage: Read-only view entered');
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -43,7 +44,7 @@ class ApplicationProfilePage extends StatelessWidget {
         child: SafeArea(
           child: Column(
             children: [
-             
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -64,14 +65,19 @@ class ApplicationProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.edit, color: Color(0xFF1976D2)),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const EditApplicationProfilePage()),
-                      );
-                    },
+                  TextButton(
+                    onPressed: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                    ),
+                    child: const Text(
+                      'Edit',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF1976D2),
+                      ),
+                    ),
                   ),
                 ],
               ),

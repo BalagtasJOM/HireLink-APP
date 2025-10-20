@@ -33,9 +33,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (!mounted) return;
 
-    // ignore: use_build_context_synchronously
     Navigator.pop(context);
-    // ignore: use_build_context_synchronously
+
     Navigator.pop(context);
   }
   @override

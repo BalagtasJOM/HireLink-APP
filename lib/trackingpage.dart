@@ -285,7 +285,7 @@ class _TrackingPageState extends State<TrackingPage> {
                 ),
                 const SizedBox(height: 16),
                 DropdownButtonFormField<String>(
-                  value: selectedStatus,
+                  initialValue: selectedStatus,
                   decoration: const InputDecoration(
                     labelText: 'Status',
                   ),
@@ -375,7 +375,6 @@ class _BottomNavBar extends StatelessWidget {
             label: 'Tracker',
             isActive: currentPage == 'tracker',
             onTap: () {
-              // Already on tracker page
             },
           ),
           _NavIcon(

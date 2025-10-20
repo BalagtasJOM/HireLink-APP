@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Homepage.dart';
 import 'trackingpage.dart';
 import 'journalpage.dart';
@@ -27,13 +28,51 @@ class _PracticePageState extends State<PracticePage> {
     'Entertainment & Media',
     'Legal Services',
     'Security Services',
-    'Government & Public Administration',
+    'Public Administration',
     'Robotics & Automation',
     'Gaming & Esports',
     'Agriculture & Farming',
   ];
 
   String _searchText = '';
+  Set<String> downloadedIndustries = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDownloadedIndustries();
+  }
+
+  Future<void> _loadDownloadedIndustries() async {
+    final prefs = await SharedPreferences.getInstance();
+    final downloaded = prefs.getStringList('downloaded_industries') ?? [];
+    setState(() {
+      downloadedIndustries = downloaded.toSet();
+    });
+  }
+
+  Future<void> _downloadIndustry(String industry) async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentDownloaded = prefs.getStringList('downloaded_industries') ?? [];
+    if (!currentDownloaded.contains(industry)) {
+      currentDownloaded.add(industry);
+      await prefs.setStringList('downloaded_industries', currentDownloaded);
+      if (mounted) {
+        setState(() {
+          downloadedIndustries.add(industry);
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('$industry downloaded successfully!')),
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Industry already downloaded.')),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,31 +135,48 @@ class _PracticePageState extends State<PracticePage> {
                     padding: const EdgeInsets.all(16),
                     itemCount: filteredIndustries.length,
                     itemBuilder: (context, index) {
+                      final industry = filteredIndustries[index];
+                      final isDownloaded = downloadedIndustries.contains(industry);
                       return SizedBox(
                         width: double.infinity,
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 8),
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              side: const BorderSide(color: Colors.black),
+                              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                             ),
-                            side: const BorderSide(color: Colors.black),
-                            padding: const EdgeInsets.symmetric(vertical: 16),
-                          ),
-                          onPressed: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => InterviewPage(
-                                industry: filteredIndustries[index],
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => InterviewPage(
+                                  industry: industry,
+                                ),
                               ),
                             ),
-                          ),
-                          child: Text(
-                            filteredIndustries[index],
-                            style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  industry,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                IconButton(
+                                  icon: Icon(
+                                    isDownloaded ? Icons.download_done : Icons.download,
+                                    color: isDownloaded ? Colors.green : Colors.blue,
+                                  ),
+                                  onPressed: () => _downloadIndustry(industry),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -172,7 +228,7 @@ class _BottomNavBar extends StatelessWidget {
             label: 'Practice',
             isActive: currentPage == 'practice',
             onTap: () {
-              // Practice button is already on practice page, no navigation needed
+              
             },
           ),
           _NavIcon(

@@ -6,6 +6,7 @@ import 'journalpage.dart';
 import 'editprofile.dart';
 import 'applicationprofile.dart';
 import 'loginpage.dart';
+import 'downloadspage.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -49,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.black),
+                        border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                       ),
                       child: const Icon(
                         Icons.person,
@@ -76,9 +77,9 @@ class ProfilePage extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.black),
+                              border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
                             child: const Text(
                               'Phone Number',
@@ -92,9 +93,9 @@ class ProfilePage extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: Colors.black),
+                              border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
                             child: const Text(
                               'Email Address',
@@ -127,7 +128,7 @@ class ProfilePage extends StatelessWidget {
                         text: 'Downloads',
                         onPressed: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ProfilePage()),
+                          MaterialPageRoute(builder: (context) => const DownloadsPage()),
                         )
                       ),
                       const SizedBox(height: 12),
@@ -260,7 +261,7 @@ class _BottomNavBar extends StatelessWidget {
             label: 'Profile',
             isActive: currentPage == 'profile',
             onTap: () {
-              // Profile button is already on profile page, no navigation needed
+
             },
           ),
         ],
