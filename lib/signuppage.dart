@@ -1,63 +1,65 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Homepage.dart';
-import 'forgotpassword.dart';
-import 'signuppage.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
-  Future<void> _login() async {
+  Future<void> _signUp() async {
     if (_formKey.currentState!.validate()) {
+      final fullName = _fullNameController.text.trim();
       final email = _emailController.text.trim();
       final password = _passwordController.text;
-
-      if (email == 'demo@gmail.com' && password == 'demo123') {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const Homepage()),
-          );
-        }
-        return;
-      }
-
 
       final prefs = await SharedPreferences.getInstance();
       final existingUsers = prefs.getStringList('users') ?? [];
 
-      bool loginSuccess = false;
+      bool userExists = false;
       for (String userData in existingUsers) {
-        final parts = userData.split('|');
-        if (parts.length == 3 && parts[1] == email && parts[2] == password) {
-          loginSuccess = true;
+        if (userData.contains(email)) {
+          userExists = true;
           break;
         }
       }
 
       if (mounted) {
-        if (loginSuccess) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const Homepage()),
-          );
-        } else {
+        if (userExists) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Invalid credentials.'),
+              content: Text('An account with this email already exists.'),
               backgroundColor: Colors.red,
             ),
           );
+          return;
+        }
+
+        final userData = '$fullName|$email|$password';
+        existingUsers.add(userData);
+        await prefs.setStringList('users', existingUsers);
+
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Account created successfully! Please log in.'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+
+        if (mounted) {
+          Navigator.pop(context); 
         }
       }
     }
@@ -93,10 +95,34 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     const SizedBox(height: 24),
+                    const Text(
+                      'Create Account',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _fullNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Full Name',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your full name';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
                     TextFormField(
                       controller: _emailController,
                       decoration: InputDecoration(
-                        labelText: 'Username',
+                        labelText: 'Email',
                         border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
                         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                       ),
@@ -140,20 +166,36 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 8),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
-                          );
-                        },
-                        child: const Text('Forgot Password?'),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      obscureText: _obscureConfirmPassword,
+                      decoration: InputDecoration(
+                        labelText: 'Confirm Password',
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                            });
+                          },
+                        ),
                       ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please confirm your password';
+                        }
+                        if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 24),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
@@ -164,23 +206,23 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           padding: const EdgeInsets.symmetric(vertical: 10),
                         ),
-                        onPressed: _login,
-                        child: const Text('Log in', style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 37, 37, 37))),
+                        onPressed: _signUp,
+                        child: const Text(
+                          'Sign Up',
+                          style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 37, 37, 37)),
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text("Don't have an account?"),
+                        const Text('Already have an account?'),
                         TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const SignUpPage()),
-                            );
+                            Navigator.pop(context);
                           },
-                          child: const Text('Sign up'),
+                          child: const Text('Log in'),
                         ),
                       ],
                     ),

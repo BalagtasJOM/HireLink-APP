@@ -39,7 +39,9 @@ class _DownloadsPageState extends State<DownloadsPage> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFE0F7FA), Color(0xFFB2EBF2)],
+            colors: [
+            Color(0xFFE0F7FA),
+            Color(0xFFB2EBF2)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),

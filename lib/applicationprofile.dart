@@ -4,7 +4,6 @@ import 'practicepage.dart';
 import 'trackingpage.dart';
 import 'journalpage.dart';
 import 'profilepage.dart';
-import 'editprofile.dart';
 
 
 class _AppShadows {
@@ -65,20 +64,7 @@ class ApplicationProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  TextButton(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const EditProfilePage()),
-                    ),
-                    child: const Text(
-                      'Edit',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF1976D2),
-                      ),
-                    ),
-                  ),
+
                 ],
               ),
               const SizedBox(height: 20),

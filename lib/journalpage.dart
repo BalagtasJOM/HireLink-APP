@@ -323,7 +323,7 @@ class _BottomNavBar extends StatelessWidget {
             label: 'Journal',
             isActive: currentPage == 'journal',
             onTap: () {
-              // Already on journal page
+
             },
           ),
           _NavIcon(
