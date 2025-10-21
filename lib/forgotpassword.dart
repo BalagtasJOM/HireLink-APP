@@ -56,17 +56,16 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     }
   }
 
-  void _navigateToResetPassword() async {
-    if (!mounted) return;
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    if (!mounted) return;
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
-    );
+  void _navigateToResetPassword() {
+    final currentContext = context;
+    Future.delayed(const Duration(seconds: 1)).then((_) {
+      if (mounted) {
+        Navigator.push(
+          currentContext,
+          MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
+        );
+      }
+    });
   }
 
   @override

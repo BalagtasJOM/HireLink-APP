@@ -102,7 +102,7 @@ class ApplicationProfilePage extends StatelessWidget {
                            _InfoRow(
                              icon: Icons.person,
                              label: 'Full Name',
-                             value: 'Juan T. Dela Cruz',
+                             value: 'Jomari M. Balagtas',
                            ),
                            const SizedBox(height: 12),
 
@@ -118,7 +118,7 @@ class ApplicationProfilePage extends StatelessWidget {
                            _InfoRow(
                              icon: Icons.email,
                              label: 'Email',
-                             value: 'JuanDelaCruz123@gmail.com',
+                             value: 'Jomaribalagtas@gmail.com',
                            ),
                            const SizedBox(height: 12),
 
@@ -207,21 +207,34 @@ class ApplicationProfilePage extends StatelessWidget {
 
                            _EducationCard(
                              level: 'College',
+                             school: 'Baliwag Polytechnic College',
+                             degree: 'Bachelor of Science in Information Technology',
+                              year: '2020 - 2020',
                            ),
 
                            
                            _EducationCard(
                              level: 'Senior High School',
+                             school: 'ACLC College of Baliuag',
+                             degree: 'General Academic Strand (GAS)',
+                              year: '2020 - 2020',
                            ),
 
                            
                            _EducationCard(
                              level: 'Junior High School',
+                             school: 'Mariano Ponce High School',
+                             degree: ' ',
+                              year: '2020 - 2020',
                            ),
 
                            
                            _EducationCard(
                              level: 'Elementary Education',
+                             school: 'Baliwag north Central School',
+                             degree: '',
+                              year: '2020 - 2020',
+                             
                            ),
                          ],
                        ),
@@ -376,10 +389,16 @@ class _JobCard extends StatelessWidget {
 }
 
 class _EducationCard extends StatelessWidget {
-  final String level;
+final String level;
+  final String school;
+  final String degree;
+  final String year;
 
   const _EducationCard({
     required this.level,
+    required this.school,
+    required this.degree,
+    required this.year,
 
   });
 

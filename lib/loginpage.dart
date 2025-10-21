@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
       final email = _emailController.text.trim();
       final password = _passwordController.text;
 
-      if (email == 'demo@gmail.com' && password == 'demo123') {
+      if (email == 'jomaribalagtas@gmail.com ' && password == 'jomari123') {
         if (mounted) {
           Navigator.pushReplacement(
             context,

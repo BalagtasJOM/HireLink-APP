@@ -27,8 +27,6 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     }
   }
   void _navigateBackToLogin() async {
-    if (!mounted) return;
-
     await Future.delayed(const Duration(seconds: 2));
 
     if (!mounted) return;

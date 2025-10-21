@@ -61,7 +61,7 @@ class ProfilePage extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     const Text(
-                      'Juan T. Dela Cruz',
+                      'Jomari M. Balagtas',
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class ProfilePage extends StatelessWidget {
                               border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
                             child: const Text(
-                              'Phone Number',
+                              'Number',
                               style: TextStyle(fontSize: 15),
                               textAlign: TextAlign.center,
                             ),

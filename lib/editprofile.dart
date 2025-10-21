@@ -15,11 +15,11 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _firstNameController = TextEditingController(text: 'Juan');
-  final TextEditingController _lastNameController = TextEditingController(text: 'Dela Cruz');
-  final TextEditingController _middleNameController = TextEditingController(text: 'Tomas');
-  final TextEditingController _emailController = TextEditingController(text: 'JuanDelaCruz123@gmail.com');
-  final TextEditingController _phoneController = TextEditingController(text: '+63 987 654 3210');
+  final TextEditingController _firstNameController = TextEditingController(text: 'Jomari');
+  final TextEditingController _lastNameController = TextEditingController(text: 'Balagtas');
+  final TextEditingController _middleNameController = TextEditingController(text: 'M');
+  final TextEditingController _emailController = TextEditingController(text: 'JomariBalagtas@gmail.com');
+  final TextEditingController _phoneController = TextEditingController(text: '09123456789');
 
   DateTime _selectedDate = DateTime(2000, 6, 27);
 
@@ -49,18 +49,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final List<EducationController> _educationControllers = [
     EducationController(
       levelController: TextEditingController(text: 'College'),
-      schoolController: TextEditingController(text: 'University of the Philippines'),
-      yearController: TextEditingController(text: '2018-2022'),
+      schoolController: TextEditingController(text: 'Baliwag Polytechnic College'),
+      yearController: TextEditingController(text: '2020-2025'),
     ),
     EducationController(
       levelController: TextEditingController(text: 'Senior High School'),
-      schoolController: TextEditingController(text: 'Philippine Science High School'),
-      yearController: TextEditingController(text: '2016-2018'),
+      schoolController: TextEditingController(text: 'ACLC College Baliwag'),
+      yearController: TextEditingController(text: '2018-2020'),
     ),
     EducationController(
-      levelController: TextEditingController(text: 'Junior High School'),
-      schoolController: TextEditingController(text: 'St. Mary\'s Academy'),
-      yearController: TextEditingController(text: '2012-2016'),
+      levelController: TextEditingController(text: 'High School'),
+      schoolController: TextEditingController(text: 'Mariano Ponce NationalHigh School'),
+      yearController: TextEditingController(text: '2015-2018'),
     ),
     EducationController(
       levelController: TextEditingController(text: 'Elementary Education'),
@@ -194,7 +194,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color.fromARGB(255, 255, 255, 255),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -214,7 +214,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color.fromARGB(255, 255, 255, 255),
                           ),
                         ),
                         const SizedBox(height: 16),
@@ -229,7 +229,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color.fromARGB(255, 255, 255, 255),
                           ),
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
@@ -254,7 +254,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: const Color.fromARGB(255, 255, 255, 255),
                           ),
                           keyboardType: TextInputType.phone,
                           validator: (value) {
@@ -272,7 +272,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: const Color.fromARGB(255, 255, 255, 255),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                             ),
@@ -296,7 +296,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: const Color.fromARGB(255, 255, 255, 255),
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(color: const Color.fromARGB(255, 0, 0, 0)),
                           ),
@@ -477,6 +477,10 @@ class _JobFormCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: Colors.black, width: 1),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -508,7 +512,7 @@ class _JobFormCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: Colors.grey.shade50,
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -526,7 +530,7 @@ class _JobFormCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: Colors.grey.shade50,
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -547,7 +551,7 @@ class _JobFormCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade50,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
                     ),
                     keyboardType: TextInputType.number,
                   ),
@@ -562,7 +566,7 @@ class _JobFormCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade50,
+                      fillColor: const Color.fromARGB(255, 255, 255, 255),
                     ),
                   ),
                 ),
@@ -571,7 +575,7 @@ class _JobFormCard extends StatelessWidget {
           ],
         ),
       ),
-    );
+    );  
   }
 }
 
@@ -590,6 +594,10 @@ class _EducationFormCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+        side: BorderSide(color: Colors.black, width: 1),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -621,7 +629,7 @@ class _EducationFormCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: const Color.fromARGB(0, 255, 255, 255),
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -639,7 +647,7 @@ class _EducationFormCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: const Color.fromARGB(0, 255, 255, 255),
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -657,7 +665,7 @@ class _EducationFormCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 filled: true,
-                fillColor: Colors.grey.shade50,
+                fillColor: const Color.fromARGB(255, 255, 255, 255),
               ),
             ),
           ],
